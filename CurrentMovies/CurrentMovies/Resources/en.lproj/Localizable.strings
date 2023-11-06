@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  CurrentMovies
+
+  Created by Bartlomiej Zdybowicz on 06/11/2023.
+  
+*/
+
+"apiKey.alert.title" = "Api key is required to work with TMDB API";
+"apiKey.alert.message" = "Once entered, it will be stored securely and reused.";
+"apiKey.alert.placeholder" = "Enter API key";
+
+"generic.cancel" = "Cancel";
+"generic.ok" = "Ok";
+

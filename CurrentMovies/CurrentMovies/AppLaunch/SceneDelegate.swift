@@ -11,7 +11,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    private var mainCoordinator: CoordinatorProtocol?
+    private var mainCoordinator: RootCoordinatorProtocol?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -23,7 +23,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
 
-        mainCoordinator = MoviesCoordinator()
+        mainCoordinator = MoviesCoordinator(window: window,
+                                            apiStorage: ApiKeyStorage(),
+                                            uiFactory: MoviesUIFactory(),
+                                            apiKeyAlertFactory: ApiKeyUIFactory())
         mainCoordinator?.start()
     }
 }

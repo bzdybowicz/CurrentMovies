@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  CurrentMovies
+
+  Created by Bartlomiej Zdybowicz on 06/11/2023.
+  
+*/
+
+"apiKey.alert.title" = "Klucz do API jest wymagany, aby pracować z TMDB API";
+"apiKey.alert.message" = "Klucz zostanie bezpieczenie zapisany i wykorzystywany przy ponownych uruchomieniach.";
+"apiKey.alert.placeholder" = "Wpisz klucz API";
+
+"generic.cancel" = "Anuluj";
+"generic.ok" = "Ok";

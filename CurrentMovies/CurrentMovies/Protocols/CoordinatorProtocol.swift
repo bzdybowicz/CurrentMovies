@@ -5,7 +5,11 @@
 //  Created by Bartlomiej Zdybowicz on 06/11/2023.
 //
 
-import Foundation
+import UIKit
+
+protocol RootCoordinatorProtocol: CoordinatorProtocol {
+    var window: UIWindow { get }
+}
 
 protocol CoordinatorProtocol {
     func start()
