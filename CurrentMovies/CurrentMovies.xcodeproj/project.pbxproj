@@ -43,6 +43,7 @@
 		7F63EBB52AF9728300AF2CCA /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBB42AF9728300AF2CCA /* MovieDetailViewController.swift */; };
 		7F63EBB72AF9835C00AF2CCA /* ConfigurationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBB62AF9835C00AF2CCA /* ConfigurationResponse.swift */; };
 		7F63EBB92AF983E700AF2CCA /* MovieDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBB82AF983E700AF2CCA /* MovieDetailViewModel.swift */; };
+		7F63EBBB2AF98C1200AF2CCA /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBBA2AF98C1200AF2CCA /* ImageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 		7F63EBB42AF9728300AF2CCA /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		7F63EBB62AF9835C00AF2CCA /* ConfigurationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationResponse.swift; sourceTree = "<group>"; };
 		7F63EBB82AF983E700AF2CCA /* MovieDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewModel.swift; sourceTree = "<group>"; };
+		7F63EBBA2AF98C1200AF2CCA /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +233,7 @@
 				7F63EB952AF9361500AF2CCA /* MoviesResponse.swift */,
 				7F63EBA22AF952F100AF2CCA /* MoviesRequest.swift */,
 				7F63EBB62AF9835C00AF2CCA /* ConfigurationResponse.swift */,
+				7F63EBBA2AF98C1200AF2CCA /* ImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				7F63EBB92AF983E700AF2CCA /* MovieDetailViewModel.swift in Sources */,
 				7F63EB6E2AF8F96000AF2CCA /* ApiKeyStorage.swift in Sources */,
 				7F63EBB52AF9728300AF2CCA /* MovieDetailViewController.swift in Sources */,
+				7F63EBBB2AF98C1200AF2CCA /* ImageService.swift in Sources */,
 				7F63EB682AF8F45100AF2CCA /* MoviesListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

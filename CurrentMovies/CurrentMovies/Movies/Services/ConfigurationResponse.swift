@@ -8,11 +8,11 @@
 import Foundation
 
 struct ConfigurationResponse: Codable {
-    let images: [ConfigurationImagesResponse]
+    let image: ConfigurationImagesResponse
     let changeKeys: [String]
 
     enum CodingKeys: String, CodingKey {
-        case images = "images"
+        case image = "images"
         case changeKeys = "change_keys"
     }
 }
@@ -27,7 +27,7 @@ struct ConfigurationImagesResponse: Codable {
     let stillSizes: [String]?
 
     enum CodingKeys: String, CodingKey {
-        case baseUrl = "images"
+        case baseUrl = "base_url"
         case secureBaseUrl = "secure_base_url"
         case backDropSizes = "backdrop_sizes"
         case logoSizes = "logo_sizes"

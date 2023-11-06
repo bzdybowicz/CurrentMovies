@@ -16,18 +16,24 @@ protocol MoviesUIFactoryProtocol {
 }
 
 struct MoviesUIFactory: MoviesUIFactoryProtocol {
+
+    private var service: MoviesServiceProtocol {
+        MoviesService(urlSession: URLSession.shared,
+                      apiKeyStorage: ApiKeyStorage(),
+                      decoder: JSONDecoder())
+    }
+
     @MainActor
     func manufacture() -> (viewModel: MovieListViewModelProtocol, viewController: UIViewController) {
-        let viewModel = MovieListViewModel(moviesService: MoviesService(urlSession: URLSession.shared,
-                                                                        apiKeyStorage: ApiKeyStorage(),
-                                                                        decoder: JSONDecoder()))
+        let viewModel = MovieListViewModel(moviesService: service)
         let vc = MoviesListViewController(viewModel: viewModel)
         return (viewModel, vc)
     }
 
     @MainActor
     func manufactureDetail(item: MovieItemViewModel) -> UIViewController {
-        let viewModel = MovieDetailViewModel(item: item)
+        let viewModel = MovieDetailViewModel(item: item, moviesService: service,
+                                             imageService: ImageService(urlSession: URLSession.shared))
         return MovieDetailViewController(viewModel: viewModel)
     }
 }

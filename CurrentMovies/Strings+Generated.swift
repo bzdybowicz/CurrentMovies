@@ -23,6 +23,12 @@ internal enum L10n {
       internal static let title = L10n.tr("Localizable", "apiKey.alert.title", fallback: "Api key is required to work with TMDB API")
     }
   }
+  internal enum Detail {
+    internal enum ReleaseDate {
+      /// Data wydania
+      internal static let label = L10n.tr("Localizable", "detail.releaseDate.label", fallback: "Data wydania")
+    }
+  }
   internal enum Generic {
     /// Cancel
     internal static let cancel = L10n.tr("Localizable", "generic.cancel", fallback: "Cancel")

@@ -13,3 +13,4 @@
 "generic.cancel" = "Cancel";
 "generic.ok" = "Ok";
 
+"detail.releaseDate.label" = "Data wydania";
