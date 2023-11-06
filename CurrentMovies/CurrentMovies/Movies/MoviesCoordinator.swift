@@ -15,6 +15,9 @@ final class MoviesCoordinator: RootCoordinatorProtocol {
     private let uiFactory: MoviesUIFactoryProtocol
     private let apiKeyAlertFactory: ApiKeyUIFactoryProtocol
     private var movieListViewModel: MovieListViewModelProtocol?
+    private var navigationController: UINavigationController?
+
+    private var cancellables: Set<AnyCancellable> = []
 
     init(window: UIWindow,
          apiStorage: ApiKeyStorageProtocol,
@@ -46,7 +49,21 @@ final class MoviesCoordinator: RootCoordinatorProtocol {
     private func showCurrentMoviesList() {
         let pair = uiFactory.manufacture()
         movieListViewModel = pair.viewModel
-        window.rootViewController = pair.viewController
+        pair
+            .viewModel
+            .selectedItem
+            .sink { [weak self] item in
+                self?.showDetail(item)
+            }
+            .store(in: &cancellables)
+        let navigationController = UINavigationController(rootViewController: pair.viewController)
+        self.navigationController = navigationController
+        window.rootViewController = navigationController
     }
 
+    @MainActor
+    private func showDetail(_ item: MovieItemViewModel) {
+        let viewController = uiFactory.manufactureDetail(item: item)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }

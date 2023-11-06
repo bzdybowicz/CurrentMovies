@@ -9,17 +9,23 @@ import Combine
 
 @MainActor
 protocol MovieListViewModelProtocol {
+    // Output.
     var items: [MovieItemViewModel] { get }
     var itemsPublished: AnyPublisher<Void, Never> { get }
+    var selectedItem: AnyPublisher<MovieItemViewModel, Never> { get }
 
+    // Input.
     func refreshList()
+    func selectItem(index: Int)
 }
 
 @MainActor
 final class MovieListViewModel: MovieListViewModelProtocol {
     var itemsPublished: AnyPublisher<Void, Never> { reloadSubject.eraseToAnyPublisher() }
-
+    var selectedItem: AnyPublisher<MovieItemViewModel, Never> { selectedItemSubject.eraseToAnyPublisher() }
     private (set) var items: [MovieItemViewModel] = []
+
+    private let selectedItemSubject = PassthroughSubject<MovieItemViewModel, Never>()
     private let reloadSubject = PassthroughSubject<Void, Never>()
     private let moviesService: MoviesServiceProtocol
     private let emptyPlaceholderString = "-"
@@ -31,6 +37,10 @@ final class MovieListViewModel: MovieListViewModelProtocol {
 
     func refreshList() {
         fetchList()
+    }
+
+    func selectItem(index: Int) {
+        selectedItemSubject.send(items[index])
     }
 }
 
@@ -67,6 +77,6 @@ private extension MovieListViewModel {
     func handleError(error: Error) {
         guard let error = error as? ServiceError else { return }
         print("Service error \(error)")
-        // Handle errors.
+        // Handle errors. It was not required by reqs.
     }
 }

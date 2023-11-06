@@ -65,6 +65,11 @@ private extension MoviesListView {
 }
 
 extension MoviesListView: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.selectItem(index: indexPath.row)
+    }
+
 }
 
 extension MoviesListView: UITableViewDataSource {

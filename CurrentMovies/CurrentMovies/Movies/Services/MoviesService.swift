@@ -9,6 +9,7 @@ import Foundation
 
 protocol MoviesServiceProtocol {
     func fetchCurrentMovies() async throws -> MoviesResponse
+    func fetchConfiguration() async throws -> ConfigurationResponse
 }
 
 enum ServiceError: Error {
@@ -36,22 +37,30 @@ struct MoviesService: MoviesServiceProtocol {
     }
 
     func fetchCurrentMovies() async throws -> MoviesResponse {
-        var urlComponents = URLComponents(string: baseApiString + MoviesRequest.nowPlaying.path)
+        let response = try await performRequest(request: .nowPlaying)
+        return try decoder.decode(MoviesResponse.self, from: response.0)
+    }
+
+    func fetchConfiguration() async throws -> ConfigurationResponse {
+        let response = try await performRequest(request: .configuration)
+        return try decoder.decode(ConfigurationResponse.self, from: response.0)
+    }
+}
+
+private extension MoviesService {
+
+    func performRequest(request: MoviesRequest) async throws -> (Data, URLResponse) {
+        var urlComponents = URLComponents(string: baseApiString + request.path)
         guard let key = apiKeyStorage.getKey() else {
             throw ServiceError.noApiKey
         }
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "page", value: "1"),
-            URLQueryItem(name: "api_key", value: key)
-        ]
+        urlComponents?.queryItems = request.queryItems(apiKey: key)
         guard let url = urlComponents?.url else {
             throw ServiceError.urlCreationFailure
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.setValue(jsonValue, forHTTPHeaderField: acceptKey)
-        let response = try await urlSession.data(for: urlRequest)
-        return try decoder.decode(MoviesResponse.self, from: response.0)
+        return try await urlSession.data(for: urlRequest)
     }
 }

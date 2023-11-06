@@ -15,6 +15,7 @@ final class MoviesListViewController: UIViewController {
     init(viewModel: MovieListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        setupSearchBar()
     }
 
     @available(*, unavailable)
