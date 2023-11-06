@@ -18,4 +18,12 @@ struct MovieResponseItem: Codable {
     let releaseDate: String?
     let vote: Double?
     let overview: String?
+
+    enum CodingKeys: String, CodingKey {
+        case backdropPath = "backdrop_path"
+        case title = "title"
+        case releaseDate = "release_date"
+        case vote = "vote_average"
+        case overview = "overview"
+    }
 }

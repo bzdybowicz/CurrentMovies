@@ -8,11 +8,14 @@
 import UIKit
 
 protocol ApiKeyUIFactoryProtocol {
-    func alert(alertKeyStorage: ApiKeyStorageProtocol) -> UIAlertController
+    @MainActor
+    func alert(alertKeyStorage: ApiKeyStorageProtocol, okCompletionAction: @escaping (() -> Void)) -> UIAlertController
 }
 
 struct ApiKeyUIFactory: ApiKeyUIFactoryProtocol {
-    func alert(alertKeyStorage: ApiKeyStorageProtocol) -> UIAlertController {
+
+    @MainActor
+    func alert(alertKeyStorage: ApiKeyStorageProtocol, okCompletionAction: @escaping (() -> Void)) -> UIAlertController {
         let alert = UIAlertController(title: L10n.ApiKey.Alert.title,
                                       message: L10n.ApiKey.Alert.message,
                                       preferredStyle: .alert)
@@ -23,10 +26,11 @@ struct ApiKeyUIFactory: ApiKeyUIFactoryProtocol {
 
         let cancelAction = UIAlertAction(title: L10n.Generic.cancel, style: .cancel, handler: nil)
 
-        let okAction = UIAlertAction(title: L10n.Generic.ok, style: .default) { (_) in
+        let okAction = UIAlertAction(title: L10n.Generic.ok, style: .default) { [okCompletionAction] (_) in
             if let text = alert.textFields?.first?.text {
                 print("Entered text: \(text)")
                 try? alertKeyStorage.saveApiKey(text)
+                okCompletionAction()
             }
         }
         alert.addAction(cancelAction)

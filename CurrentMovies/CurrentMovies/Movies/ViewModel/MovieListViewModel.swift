@@ -5,18 +5,22 @@
 //  Created by Bartlomiej Zdybowicz on 06/11/2023.
 //
 
-import Foundation
+import Combine
 
 @MainActor
 protocol MovieListViewModelProtocol {
     var items: [MovieItemViewModel] { get }
+    var itemsPublished: AnyPublisher<Void, Never> { get }
+
+    func refreshList()
 }
 
 @MainActor
 final class MovieListViewModel: MovieListViewModelProtocol {
+    var itemsPublished: AnyPublisher<Void, Never> { reloadSubject.eraseToAnyPublisher() }
 
     private (set) var items: [MovieItemViewModel] = []
-
+    private let reloadSubject = PassthroughSubject<Void, Never>()
     private let moviesService: MoviesServiceProtocol
     private let emptyPlaceholderString = "-"
 
@@ -25,7 +29,13 @@ final class MovieListViewModel: MovieListViewModelProtocol {
         fetchList()
     }
 
-    private func fetchList() {
+    func refreshList() {
+        fetchList()
+    }
+}
+
+private extension MovieListViewModel {
+    func fetchList() {
         Task { [weak self] in
             guard let self = self else { return }
             do {
@@ -37,7 +47,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
         }
     }
 
-    private func handleResponse(_ response: MoviesResponse) {
+    func handleResponse(_ response: MoviesResponse) {
         guard let results = response.results else { return }
         let items = results.compactMap {
             var voteString = emptyPlaceholderString
@@ -51,9 +61,10 @@ final class MovieListViewModel: MovieListViewModelProtocol {
                                       overview: $0.overview ?? emptyPlaceholderString)
         }
         self.items = items
+        reloadSubject.send(())
     }
 
-    private func handleError(error: Error) {
+    func handleError(error: Error) {
         guard let error = error as? ServiceError else { return }
         print("Service error \(error)")
         // Handle errors.

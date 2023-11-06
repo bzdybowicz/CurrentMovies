@@ -9,8 +9,11 @@ import UIKit
 
 final class MovieCell: UITableViewCell {
 
-    init() {
+    private let label = UILabel()
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: Self.reusableIdentifier)
+        setup()
     }
 
     @available(*, unavailable)
@@ -19,6 +22,23 @@ final class MovieCell: UITableViewCell {
     }
 
     func update(item: MovieItemViewModel) {
-        
+        label.text = item.title
+    }
+}
+
+private extension MovieCell {
+
+    static let xOffset: CGFloat = 20
+    static let yOffset: CGFloat = 8
+
+    func setup() {
+        contentView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: MovieCell.xOffset),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -MovieCell.xOffset),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: MovieCell.yOffset),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MovieCell.yOffset),
+        ])
     }
 }

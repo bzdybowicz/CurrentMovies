@@ -24,8 +24,6 @@ struct MoviesService: MoviesServiceProtocol {
     private let decoder: JSONDecoderProtocol
 
     private let baseApiString = "https://api.themoviedb.org/3/"
-    private let authorizationKey = "Authorization"
-    private let bearerPrefix = "Bearer "
     private let acceptKey = "accept"
     private let jsonValue = "application/json"
 
@@ -42,10 +40,16 @@ struct MoviesService: MoviesServiceProtocol {
         guard let key = apiKeyStorage.getKey() else {
             throw ServiceError.noApiKey
         }
-        urlComponents?.queryItems = []
-        guard let url = urlComponents?.url else { throw ServiceError.urlCreationFailure }
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "page", value: "1"),
+            URLQueryItem(name: "api_key", value: key)
+        ]
+        guard let url = urlComponents?.url else {
+            throw ServiceError.urlCreationFailure
+        }
         var urlRequest = URLRequest(url: url)
-        urlRequest.setValue(bearerPrefix + key, forHTTPHeaderField: authorizationKey)
+        urlRequest.httpMethod = "GET"
         urlRequest.setValue(jsonValue, forHTTPHeaderField: acceptKey)
         let response = try await urlSession.data(for: urlRequest)
         return try decoder.decode(MoviesResponse.self, from: response.0)

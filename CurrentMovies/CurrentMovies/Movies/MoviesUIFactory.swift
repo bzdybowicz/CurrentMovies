@@ -8,6 +8,7 @@
 import UIKit
 
 protocol MoviesUIFactoryProtocol {
+    @MainActor
     func manufacture() -> (viewModel: MovieListViewModelProtocol, viewController: UIViewController)
 }
 

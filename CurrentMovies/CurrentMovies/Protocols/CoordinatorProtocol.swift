@@ -12,5 +12,6 @@ protocol RootCoordinatorProtocol: CoordinatorProtocol {
 }
 
 protocol CoordinatorProtocol {
+    @MainActor
     func start()
 }

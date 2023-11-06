@@ -8,11 +8,9 @@
 import Foundation
 
 struct MovieItemViewModel: Equatable {
-
     let backdropPath: String?
     let title: String
     let releaseDate: String
     let voteString: String
     let overview: String
-
 }

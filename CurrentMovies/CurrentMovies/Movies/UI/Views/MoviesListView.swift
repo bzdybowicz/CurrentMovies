@@ -5,6 +5,7 @@
 //  Created by Bartlomiej Zdybowicz on 06/11/2023.
 //
 
+import Combine
 import UIKit
 
 final class MoviesListView: UIView {
@@ -13,10 +14,13 @@ final class MoviesListView: UIView {
     private let searchBar = UISearchBar()
     private let viewModel: MovieListViewModelProtocol
 
+    private var cancellables: Set<AnyCancellable> = []
+
     init(viewModel: MovieListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(frame: .zero)
         setup()
+        bind()
     }
 
     @available(*, unavailable)
@@ -30,6 +34,15 @@ private extension MoviesListView {
 
     func setup() {
         setupTableView()
+    }
+
+    func bind() {
+        viewModel
+            .itemsPublished
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
 
     func setupTableView() {
