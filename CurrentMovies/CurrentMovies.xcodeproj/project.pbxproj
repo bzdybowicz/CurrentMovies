@@ -34,6 +34,11 @@
 		7F63EB962AF9361500AF2CCA /* MoviesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EB952AF9361500AF2CCA /* MoviesResponse.swift */; };
 		7F63EB9C2AF9376000AF2CCA /* MoviesServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EB9B2AF9376000AF2CCA /* MoviesServiceTests.swift */; };
 		7F63EBA32AF952F100AF2CCA /* MoviesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBA22AF952F100AF2CCA /* MoviesRequest.swift */; };
+		7F63EBA62AF9680B00AF2CCA /* URLSessionRecordingStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBA52AF9680B00AF2CCA /* URLSessionRecordingStub.swift */; };
+		7F63EBA82AF9682800AF2CCA /* JSONDecoderRecordingStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBA72AF9682800AF2CCA /* JSONDecoderRecordingStub.swift */; };
+		7F63EBAA2AF9686B00AF2CCA /* ApiKeyStorageRecordingStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBA92AF9686B00AF2CCA /* ApiKeyStorageRecordingStub.swift */; };
+		7F63EBAD2AF96B4300AF2CCA /* MovieListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBAC2AF96B4300AF2CCA /* MovieListViewModelTests.swift */; };
+		7F63EBAF2AF96B8400AF2CCA /* MoviesServiceRecordingStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63EBAE2AF96B8400AF2CCA /* MoviesServiceRecordingStub.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +91,11 @@
 		7F63EB952AF9361500AF2CCA /* MoviesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesResponse.swift; sourceTree = "<group>"; };
 		7F63EB9B2AF9376000AF2CCA /* MoviesServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesServiceTests.swift; sourceTree = "<group>"; };
 		7F63EBA22AF952F100AF2CCA /* MoviesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRequest.swift; sourceTree = "<group>"; };
+		7F63EBA52AF9680B00AF2CCA /* URLSessionRecordingStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionRecordingStub.swift; sourceTree = "<group>"; };
+		7F63EBA72AF9682800AF2CCA /* JSONDecoderRecordingStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderRecordingStub.swift; sourceTree = "<group>"; };
+		7F63EBA92AF9686B00AF2CCA /* ApiKeyStorageRecordingStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyStorageRecordingStub.swift; sourceTree = "<group>"; };
+		7F63EBAC2AF96B4300AF2CCA /* MovieListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModelTests.swift; sourceTree = "<group>"; };
+		7F63EBAE2AF96B8400AF2CCA /* MoviesServiceRecordingStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesServiceRecordingStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +161,7 @@
 		7F63EB432AF8F20900AF2CCA /* CurrentMoviesTests */ = {
 			isa = PBXGroup;
 			children = (
+				7F63EBA42AF967F500AF2CCA /* Dummies */,
 				7F63EB972AF9373500AF2CCA /* Movies */,
 				7F63EB442AF8F20900AF2CCA /* CurrentMoviesTests.swift */,
 			);
@@ -180,7 +191,6 @@
 		7F63EB5E2AF8F3B000AF2CCA /* Movies */ = {
 			isa = PBXGroup;
 			children = (
-				7F63EB742AF900D700AF2CCA /* ViewModel */,
 				7F63EB692AF8F71600AF2CCA /* Services */,
 				7F63EB642AF8F42800AF2CCA /* UI */,
 				7F63EB712AF900A300AF2CCA /* MoviesUIFactory.swift */,
@@ -200,6 +210,7 @@
 		7F63EB642AF8F42800AF2CCA /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				7F63EB742AF900D700AF2CCA /* ViewModel */,
 				7F63EB732AF900CD00AF2CCA /* Views */,
 			);
 			path = UI;
@@ -231,7 +242,8 @@
 				7F63EB752AF900E400AF2CCA /* MovieListViewModel.swift */,
 				7F63EB8A2AF92BFC00AF2CCA /* MovieItemViewModel.swift */,
 			);
-			path = ViewModel;
+			name = ViewModel;
+			path = ../ViewModel;
 			sourceTree = "<group>";
 		};
 		7F63EB7C2AF9038800AF2CCA /* Resources */ = {
@@ -289,6 +301,7 @@
 		7F63EB972AF9373500AF2CCA /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				7F63EBAB2AF96AEB00AF2CCA /* UI */,
 				7F63EB9A2AF9374100AF2CCA /* Services */,
 			);
 			path = Movies;
@@ -300,6 +313,25 @@
 				7F63EB9B2AF9376000AF2CCA /* MoviesServiceTests.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		7F63EBA42AF967F500AF2CCA /* Dummies */ = {
+			isa = PBXGroup;
+			children = (
+				7F63EBA52AF9680B00AF2CCA /* URLSessionRecordingStub.swift */,
+				7F63EBA72AF9682800AF2CCA /* JSONDecoderRecordingStub.swift */,
+				7F63EBA92AF9686B00AF2CCA /* ApiKeyStorageRecordingStub.swift */,
+				7F63EBAE2AF96B8400AF2CCA /* MoviesServiceRecordingStub.swift */,
+			);
+			path = Dummies;
+			sourceTree = "<group>";
+		};
+		7F63EBAB2AF96AEB00AF2CCA /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				7F63EBAC2AF96B4300AF2CCA /* MovieListViewModelTests.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -461,8 +493,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F63EBA82AF9682800AF2CCA /* JSONDecoderRecordingStub.swift in Sources */,
 				7F63EB9C2AF9376000AF2CCA /* MoviesServiceTests.swift in Sources */,
+				7F63EBA62AF9680B00AF2CCA /* URLSessionRecordingStub.swift in Sources */,
+				7F63EBAF2AF96B8400AF2CCA /* MoviesServiceRecordingStub.swift in Sources */,
+				7F63EBAA2AF9686B00AF2CCA /* ApiKeyStorageRecordingStub.swift in Sources */,
 				7F63EB452AF8F20900AF2CCA /* CurrentMoviesTests.swift in Sources */,
+				7F63EBAD2AF96B4300AF2CCA /* MovieListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
