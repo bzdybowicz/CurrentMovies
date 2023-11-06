@@ -12,8 +12,11 @@ protocol MoviesUIFactoryProtocol {
 }
 
 struct MoviesUIFactory: MoviesUIFactoryProtocol {
+    @MainActor
     func manufacture() -> (viewModel: MovieListViewModelProtocol, viewController: UIViewController) {
-        let viewModel = MovieListViewModel()
+        let viewModel = MovieListViewModel(moviesService: MoviesService(urlSession: URLSession.shared,
+                                                                        apiKeyStorage: ApiKeyStorage(),
+                                                                        decoder: JSONDecoder()))
         let vc = MoviesListViewController(viewModel: viewModel)
         return (viewModel, vc)
     }

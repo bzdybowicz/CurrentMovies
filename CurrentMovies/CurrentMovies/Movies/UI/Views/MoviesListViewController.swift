@@ -9,6 +9,7 @@ import UIKit
 
 final class MoviesListViewController: UIViewController {
 
+    private let searchBar = UISearchBar()
     private let viewModel: MovieListViewModelProtocol
 
     init(viewModel: MovieListViewModelProtocol) {
@@ -24,4 +25,18 @@ final class MoviesListViewController: UIViewController {
     override func loadView() {
         view = MoviesListView(viewModel: viewModel)
     }
+}
+
+private extension MoviesListViewController {
+
+    func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
+        searchBar.searchBarStyle = .default
+        navigationItem.titleView = searchBar
+    }
+}
+
+extension MoviesListViewController: UISearchBarDelegate {
+
 }

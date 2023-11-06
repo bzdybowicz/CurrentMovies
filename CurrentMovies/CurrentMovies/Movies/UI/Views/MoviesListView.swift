@@ -9,15 +9,60 @@ import UIKit
 
 final class MoviesListView: UIView {
 
+    private let tableView = UITableView()
+    private let searchBar = UISearchBar()
     private let viewModel: MovieListViewModelProtocol
 
     init(viewModel: MovieListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(frame: .zero)
+        setup()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+}
+
+private extension MoviesListView {
+
+    func setup() {
+        setupTableView()
+    }
+
+    func setupTableView() {
+        addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(MovieCell.self, forCellReuseIdentifier: MovieCell.reusableIdentifier)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.showsVerticalScrollIndicator = false
+    }
+
+}
+
+extension MoviesListView: UITableViewDelegate {
+}
+
+extension MoviesListView: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.items.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reusableIdentifier)
+        (cell as? MovieCell)?.update(item: viewModel.items[indexPath.row])
+        return cell ?? UITableViewCell()
     }
 }
