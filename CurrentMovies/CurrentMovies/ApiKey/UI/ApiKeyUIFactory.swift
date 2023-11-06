@@ -28,7 +28,6 @@ struct ApiKeyUIFactory: ApiKeyUIFactoryProtocol {
 
         let okAction = UIAlertAction(title: L10n.Generic.ok, style: .default) { [okCompletionAction] (_) in
             if let text = alert.textFields?.first?.text {
-                print("Entered text: \(text)")
                 try? alertKeyStorage.saveApiKey(text)
                 okCompletionAction()
             }
