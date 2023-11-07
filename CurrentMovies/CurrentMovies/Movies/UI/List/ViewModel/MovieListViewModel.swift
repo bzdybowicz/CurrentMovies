@@ -14,6 +14,7 @@ protocol MovieListViewModelProtocol: AnyObject {
     var itemsPublished: AnyPublisher<Void, Never> { get }
     var selectedItem: AnyPublisher<MovieItemViewModel, Never> { get }
     var reloadItem: AnyPublisher<Int, Never> { get }
+    var searchPlaceholder: String { get }
 
     // Input.
     func refreshList()
@@ -26,6 +27,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     var itemsPublished: AnyPublisher<Void, Never> { reloadSubject.eraseToAnyPublisher() }
     var selectedItem: AnyPublisher<MovieItemViewModel, Never> { selectedItemSubject.eraseToAnyPublisher() }
     var reloadItem: AnyPublisher<Int, Never> { reloadItemSubject.eraseToAnyPublisher() }
+    let searchPlaceholder: String = L10n.List.Search.placeholder
     private (set) var items: [MovieItemViewModel] = []
 
     private let reloadItemSubject = PassthroughSubject<Int, Never>()

@@ -25,8 +25,8 @@ internal enum L10n {
   }
   internal enum Detail {
     internal enum ReleaseDate {
-      /// Data wydania
-      internal static let label = L10n.tr("Localizable", "detail.releaseDate.label", fallback: "Data wydania")
+      /// Release date
+      internal static let label = L10n.tr("Localizable", "detail.releaseDate.label", fallback: "Release date")
     }
   }
   internal enum Generic {
@@ -34,6 +34,12 @@ internal enum L10n {
     internal static let cancel = L10n.tr("Localizable", "generic.cancel", fallback: "Cancel")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "generic.ok", fallback: "Ok")
+  }
+  internal enum List {
+    internal enum Search {
+      /// Search
+      internal static let placeholder = L10n.tr("Localizable", "list.search.placeholder", fallback: "Search")
+    }
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

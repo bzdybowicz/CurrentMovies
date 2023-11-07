@@ -32,7 +32,7 @@ private extension MoviesListViewController {
 
     func setupSearchBar() {
         searchBar.delegate = self
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = viewModel.searchPlaceholder
         searchBar.searchBarStyle = .default
         navigationItem.titleView = searchBar
     }

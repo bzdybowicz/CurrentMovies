@@ -13,4 +13,6 @@
 "generic.cancel" = "Anuluj";
 "generic.ok" = "Ok";
 
-"detail.releaseDate.label" = "Release date";
+"list.search.placeholder" = "Szukaj";
+
+"detail.releaseDate.label" = "Data wydania";
