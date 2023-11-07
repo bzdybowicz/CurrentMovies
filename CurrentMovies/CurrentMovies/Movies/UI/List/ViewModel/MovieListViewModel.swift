@@ -15,6 +15,7 @@ protocol MovieListViewModelProtocol: AnyObject {
     var selectedItem: AnyPublisher<MovieItemViewModel, Never> { get }
     var reloadItem: AnyPublisher<Int, Never> { get }
     var searchPlaceholder: String { get }
+    var deleteApiKeyButtonText: String { get }
 
     // Input.
     func refreshList()
@@ -23,6 +24,7 @@ protocol MovieListViewModelProtocol: AnyObject {
     func setFavourite(id: Int, newValue: Bool)
     func searchText(_ text: String)
     func searchCancelAction()
+    func deleteApiKey()
 }
 
 @MainActor
@@ -31,6 +33,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     var selectedItem: AnyPublisher<MovieItemViewModel, Never> { selectedItemSubject.eraseToAnyPublisher() }
     var reloadItem: AnyPublisher<Int, Never> { reloadItemSubject.eraseToAnyPublisher() }
     let searchPlaceholder: String = L10n.List.Search.placeholder
+    let deleteApiKeyButtonText: String = L10n.ApiKey.Button.clear
     private var items: [MovieItemViewModel] = []
     private var searchItems: [MovieItemViewModel] = []
     var displayItems: [MovieItemViewModel] {
@@ -46,6 +49,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     private let selectedItemSubject = PassthroughSubject<MovieItemViewModel, Never>()
     private let reloadSubject = PassthroughSubject<Void, Never>()
     private let moviesService: MoviesServiceProtocol
+    private let apiKeyStorage: ApiKeyStorageProtocol
     private let emptyPlaceholderString = "-"
     private var lastRequestedPage: Int32 = 0
     private var searchMode = false
@@ -56,9 +60,11 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     private var cancellables: Set<AnyCancellable> = []
 
     init(moviesService: MoviesServiceProtocol,
-         favouritesStorage: FavouritesStorageProtocol) {
+         favouritesStorage: FavouritesStorageProtocol,
+         apiKeyStorage: ApiKeyStorageProtocol) {
         self.moviesService = moviesService
         self.favouritesStorage = favouritesStorage
+        self.apiKeyStorage = apiKeyStorage
         fetchPage(bumpPage: true)
         bindFavourites()
     }
@@ -104,6 +110,13 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     func searchText(_ text: String) {
         searchMode = true
         search(query: text)
+    }
+
+    func deleteApiKey() {
+        apiKeyStorage.deleteKey()
+        items = []
+        searchItems = []
+        reloadSubject.send(())
     }
 }
 
@@ -193,7 +206,6 @@ private extension MovieListViewModel {
     func handleError(_ error: Error) {
         fetchingNextPage = false
         print("ERROR \(error)")
-        fetchPage(bumpPage: false)
         guard let error = error as? ServiceError else { return }
         print("Service error \(error)")
         // Handle errors. It was not required by reqs.

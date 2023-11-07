@@ -9,6 +9,7 @@
 "apiKey.alert.title" = "Api key is required to work with TMDB API";
 "apiKey.alert.message" = "Once entered, it will be stored securely and reused.";
 "apiKey.alert.placeholder" = "Enter API key";
+"apiKey.button.clear" = "Clean API key";
 
 "generic.cancel" = "Cancel";
 "generic.ok" = "Ok";

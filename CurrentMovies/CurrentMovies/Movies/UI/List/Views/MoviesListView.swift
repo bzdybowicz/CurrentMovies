@@ -12,6 +12,7 @@ final class MoviesListView: UIView {
 
     private let tableView = UITableView()
     private let searchBar = UISearchBar()
+    private let deleteApiKeyButton = UIButton()
     private let viewModel: MovieListViewModelProtocol
 
     private var cancellables: Set<AnyCancellable> = []
@@ -34,6 +35,7 @@ private extension MoviesListView {
 
     func setup() {
         setupTableView()
+        setupDeleteApiKeyButton()
     }
 
     func bind() {
@@ -58,7 +60,7 @@ private extension MoviesListView {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
@@ -67,6 +69,24 @@ private extension MoviesListView {
         tableView.register(MovieCell.self, forCellReuseIdentifier: MovieCell.reusableIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.showsVerticalScrollIndicator = false
+    }
+
+    func setupDeleteApiKeyButton() {
+        addSubview(deleteApiKeyButton)
+        deleteApiKeyButton.setTitle(viewModel.deleteApiKeyButtonText, for: .normal)
+        deleteApiKeyButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            deleteApiKeyButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            deleteApiKeyButton.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            deleteApiKeyButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
+            deleteApiKeyButton.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
+        deleteApiKeyButton.addTarget(self, action: #selector(deleteApiKey), for: .touchUpInside)
+    }
+
+    @objc func deleteApiKey() {
+        viewModel.deleteApiKey()
     }
 
 }

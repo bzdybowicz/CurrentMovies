@@ -22,6 +22,10 @@ internal enum L10n {
       ///   Created by Bartlomiej Zdybowicz on 06/11/2023.
       internal static let title = L10n.tr("Localizable", "apiKey.alert.title", fallback: "Api key is required to work with TMDB API")
     }
+    internal enum Button {
+      /// Clean API key
+      internal static let clear = L10n.tr("Localizable", "apiKey.button.clear", fallback: "Clean API key")
+    }
   }
   internal enum Detail {
     internal enum ReleaseDate {

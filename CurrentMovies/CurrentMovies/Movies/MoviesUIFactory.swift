@@ -27,7 +27,7 @@ struct MoviesUIFactory: MoviesUIFactoryProtocol {
 
     @MainActor
     func manufacture() -> (viewModel: MovieListViewModelProtocol, viewController: UIViewController) {
-        let viewModel = MovieListViewModel(moviesService: service, favouritesStorage: favouritesStorage)
+        let viewModel = MovieListViewModel(moviesService: service, favouritesStorage: favouritesStorage, apiKeyStorage: ApiKeyStorage())
         let vc = MoviesListViewController(viewModel: viewModel)
         return (viewModel, vc)
     }

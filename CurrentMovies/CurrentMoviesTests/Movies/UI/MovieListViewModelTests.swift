@@ -33,7 +33,9 @@ final class MovieListViewModelTests: XCTestCase {
         let serviceStub = MoviesServiceRecordingStub(moviesResponse: stubbedResponse)
         let subject = PassthroughSubject<FavouriteChange, Never>()
         let favouritesStub = FavouritesRecordingStub(changePublisher: subject.eraseToAnyPublisher())
-        let sut = MovieListViewModel(moviesService: serviceStub, favouritesStorage: favouritesStub)
+        let sut = MovieListViewModel(moviesService: serviceStub,
+                                     favouritesStorage: favouritesStub,
+                                     apiKeyStorage: ApiKeyStorageRecordingStub(key: "key"))
         let expectation = expectation(description: "Items published")
         sut
             .itemsPublished
@@ -64,7 +66,9 @@ final class MovieListViewModelTests: XCTestCase {
         let serviceStub = MoviesServiceRecordingStub(moviesResponse: stubbedResponse)
         let subject = PassthroughSubject<FavouriteChange, Never>()
         let favouritesStub = FavouritesRecordingStub(changePublisher: subject.eraseToAnyPublisher(), favourites: [1])
-        let sut = MovieListViewModel(moviesService: serviceStub, favouritesStorage: favouritesStub)
+        let sut = MovieListViewModel(moviesService: serviceStub,
+                                     favouritesStorage: favouritesStub,
+                                     apiKeyStorage: ApiKeyStorageRecordingStub(key: "key"))
         let expectation = expectation(description: "Items published")
         sut
             .itemsPublished
@@ -116,7 +120,9 @@ final class MovieListViewModelTests: XCTestCase {
         let serviceStub = MoviesServiceRecordingStub(moviesResponse: stubbedResponse)
         let subject = PassthroughSubject<FavouriteChange, Never>()
         let favouritesStub = FavouritesRecordingStub(changePublisher: subject.eraseToAnyPublisher(), favourites: [])
-        let sut = MovieListViewModel(moviesService: serviceStub, favouritesStorage: favouritesStub)
+        let sut = MovieListViewModel(moviesService: serviceStub,
+                                     favouritesStorage: favouritesStub,
+                                     apiKeyStorage: ApiKeyStorageRecordingStub(key: "key"))
         var selected: Bool = false
         let expectation = expectation(description: "Items published")
         sut
