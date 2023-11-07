@@ -10,6 +10,10 @@ import UIKit
 final class MovieCell: UITableViewCell {
 
     private let label = UILabel()
+    private let favouriteButton = UIButton()
+
+    private var item: MovieItemViewModel?
+    private weak var viewModel: MovieListViewModelProtocol?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: Self.reusableIdentifier)
@@ -21,8 +25,23 @@ final class MovieCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func update(item: MovieItemViewModel) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        item = nil
+        viewModel = nil
+    }
+
+    func update(item: MovieItemViewModel, viewModel: MovieListViewModelProtocol) {
+        self.item = item
+        self.viewModel = viewModel
         label.text = item.title
+        favouriteButton.setImage(item.image, for: .normal)
+        favouriteButton.addTarget(self, action: #selector(favouriteAction), for: .touchUpInside)
+    }
+
+    @objc func favouriteAction() {
+        guard let item = item else { return }
+        viewModel?.setFavourite(id: item.id, newValue: !item.isFavourite)
     }
 }
 
@@ -32,13 +51,28 @@ private extension MovieCell {
     static let yOffset: CGFloat = 8
 
     func setup() {
+        setupLabel()
+        setupFavouriteButton()
+    }
+
+    func setupLabel() {
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: MovieCell.xOffset),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -MovieCell.xOffset),
             label.topAnchor.constraint(equalTo: topAnchor, constant: MovieCell.yOffset),
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MovieCell.yOffset),
+        ])
+    }
+
+    func setupFavouriteButton() {
+        contentView.addSubview(favouriteButton)
+        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            favouriteButton.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: MovieCell.xOffset),
+            favouriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -MovieCell.xOffset),
+            favouriteButton.topAnchor.constraint(equalTo: topAnchor, constant: MovieCell.yOffset),
+            favouriteButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MovieCell.yOffset),
         ])
     }
 }

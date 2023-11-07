@@ -87,6 +87,7 @@ private extension MovieDetailView {
     func setupImage() {
         verticalStackView.addArrangedSubview(imageView)
         let height = imageView.heightAnchor.constraint(equalToConstant: 200)
+        verticalStackView.setCustomSpacing(20, after: imageView)
         height.isActive = true
         imageHeightConstraint = height
     }

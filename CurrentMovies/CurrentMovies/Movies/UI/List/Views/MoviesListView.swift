@@ -43,6 +43,13 @@ private extension MoviesListView {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+
+        viewModel
+            .reloadItem
+            .sink(receiveValue: { [weak self] index in
+                self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            })
+            .store(in: &cancellables)
     }
 
     func setupTableView() {
@@ -80,7 +87,7 @@ extension MoviesListView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reusableIdentifier)
-        (cell as? MovieCell)?.update(item: viewModel.items[indexPath.row])
+        (cell as? MovieCell)?.update(item: viewModel.items[indexPath.row], viewModel: viewModel)
         return cell ?? UITableViewCell()
     }
 }

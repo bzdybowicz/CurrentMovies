@@ -13,6 +13,7 @@ struct MoviesResponse: Codable, Equatable {
 }
 
 struct MovieResponseItem: Codable, Equatable {
+    let id: Int?
     let backdropPath: String?
     let title: String?
     let releaseDate: String?
@@ -20,6 +21,7 @@ struct MovieResponseItem: Codable, Equatable {
     let overview: String?
 
     enum CodingKeys: String, CodingKey {
+        case id = "id"
         case backdropPath = "backdrop_path"
         case title = "title"
         case releaseDate = "release_date"

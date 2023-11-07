@@ -14,12 +14,14 @@ protocol MovieDetailViewModelProtocol {
     var releaseDateText: String { get }
     var imagePublisher: AnyPublisher<UIImage, Never> { get }
     var imageRatioPublisher: AnyPublisher<CGFloat, Never> { get }
+
+    func setFavourite(newValue: Bool)
 }
 
 @MainActor
 final class MovieDetailViewModel: MovieDetailViewModelProtocol {
 
-    let item: MovieItemViewModel
+    private(set)var item: MovieItemViewModel
     let releaseDateText = L10n.Detail.ReleaseDate.label
     var imagePublisher: AnyPublisher<UIImage, Never> { imageSubject.eraseToAnyPublisher() }
     var imageRatioPublisher: AnyPublisher<CGFloat, Never> { imageRatioSubject.eraseToAnyPublisher() }
@@ -28,14 +30,26 @@ final class MovieDetailViewModel: MovieDetailViewModelProtocol {
     private let imageSubject = PassthroughSubject<UIImage, Never>()
     private let moviesService: MoviesServiceProtocol
     private let imageService: ImageServiceProtocol
+    private let favouritesStorage: FavouritesStorageProtocol
 
     init(item: MovieItemViewModel,
          moviesService: MoviesServiceProtocol,
-         imageService: ImageServiceProtocol) {
+         imageService: ImageServiceProtocol,
+         favouriteStorage: FavouritesStorageProtocol) {
         self.item = item
         self.moviesService = moviesService
         self.imageService = imageService
+        self.favouritesStorage = favouriteStorage
         getConfiguration()
+    }
+
+    func setFavourite(newValue: Bool) {
+        if newValue {
+            favouritesStorage.add(id: item.id)
+        } else {
+            favouritesStorage.remove(id: item.id)
+        }
+        item.setFavourite(newValue: newValue)
     }
 }
 

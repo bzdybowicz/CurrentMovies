@@ -23,9 +23,11 @@ struct MoviesUIFactory: MoviesUIFactoryProtocol {
                       decoder: JSONDecoder())
     }
 
+    private let favouritesStorage = FavouritesStorage()
+
     @MainActor
     func manufacture() -> (viewModel: MovieListViewModelProtocol, viewController: UIViewController) {
-        let viewModel = MovieListViewModel(moviesService: service)
+        let viewModel = MovieListViewModel(moviesService: service, favouritesStorage: favouritesStorage)
         let vc = MoviesListViewController(viewModel: viewModel)
         return (viewModel, vc)
     }
@@ -33,7 +35,8 @@ struct MoviesUIFactory: MoviesUIFactoryProtocol {
     @MainActor
     func manufactureDetail(item: MovieItemViewModel) -> UIViewController {
         let viewModel = MovieDetailViewModel(item: item, moviesService: service,
-                                             imageService: ImageService(urlSession: URLSession.shared))
+                                             imageService: ImageService(urlSession: URLSession.shared),
+                                             favouriteStorage: favouritesStorage)
         return MovieDetailViewController(viewModel: viewModel)
     }
 }

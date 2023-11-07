@@ -15,12 +15,14 @@ enum TestError: Error {
 final class MoviesServiceTests: XCTestCase {
 
     private lazy var stubbedResponse = MoviesResponse(page: 3, results: [
-        MovieResponseItem(backdropPath: "Path",
+        MovieResponseItem(id: 1,
+                          backdropPath: "Path",
                           title: "Title 1",
                           releaseDate: "23-03-2022",
                           vote: 7.5,
                           overview: "Some short overview"),
-        MovieResponseItem(backdropPath: "Back drop path",
+        MovieResponseItem(id: 2,
+                          backdropPath: "Back drop path",
                           title: "Title 2",
                           releaseDate: "12-02-2022",
                           vote: 4.4,
