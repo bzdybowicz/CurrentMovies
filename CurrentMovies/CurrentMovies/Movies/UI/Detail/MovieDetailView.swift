@@ -64,7 +64,7 @@ private extension MovieDetailView {
     }
 
     func setup() {
-        backgroundColor = .white
+        backgroundColor = .systemGray2
         setupStack()
         setupTitle()
         setupImage()
