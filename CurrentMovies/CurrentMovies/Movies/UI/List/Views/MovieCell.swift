@@ -51,6 +51,7 @@ private extension MovieCell {
     static let yOffset: CGFloat = 8
 
     func setup() {
+        selectionStyle = .none
         setupLabel()
         setupFavouriteButton()
     }
