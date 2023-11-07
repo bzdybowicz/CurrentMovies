@@ -42,7 +42,7 @@ final class MovieListViewModelTests: XCTestCase {
             }
             .store(in: &cancellables)
         await fulfillment(of: [expectation], timeout: 1)
-        XCTAssertEqual(sut.items, [
+        XCTAssertEqual(sut.displayItems, [
             MovieItemViewModel(id: 1,
                                backdropPath: "Path",
                                title: "Title 1",
@@ -73,7 +73,7 @@ final class MovieListViewModelTests: XCTestCase {
             }
             .store(in: &cancellables)
         await fulfillment(of: [expectation], timeout: 1)
-        XCTAssertEqual(sut.items, [
+        XCTAssertEqual(sut.displayItems, [
             MovieItemViewModel(id: 1,
                                backdropPath: "Path",
                                title: "Title 1",
@@ -91,7 +91,7 @@ final class MovieListViewModelTests: XCTestCase {
         ])
         sut.setFavourite(id: 2, newValue: true)
         sut.setFavourite(id: 1, newValue: false)
-        XCTAssertEqual(sut.items, [
+        XCTAssertEqual(sut.displayItems, [
             MovieItemViewModel(id: 1,
                                backdropPath: "Path",
                                title: "Title 1",

@@ -86,12 +86,12 @@ extension MoviesListView: UITableViewDelegate {
 extension MoviesListView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.items.count
+        viewModel.displayItems.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reusableIdentifier)
-        (cell as? MovieCell)?.update(item: viewModel.items[indexPath.row], viewModel: viewModel)
+        (cell as? MovieCell)?.update(item: viewModel.displayItems[indexPath.row], viewModel: viewModel)
         return cell ?? UITableViewCell()
     }
 }

@@ -13,13 +13,10 @@ final class MoviesListViewController: UIViewController {
     private let searchBar = UISearchBar()
     private let viewModel: MovieListViewModelProtocol
 
-    private var cancellables: Set<AnyCancellable> = []
-
     init(viewModel: MovieListViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         setupSearchBar()
-        bind()
     }
 
     @available(*, unavailable)
@@ -38,19 +35,19 @@ private extension MoviesListViewController {
         searchBar.delegate = self
         searchBar.placeholder = viewModel.searchPlaceholder
         searchBar.searchBarStyle = .default
+        searchBar.showsCancelButton = true
         navigationItem.titleView = searchBar
-    }
-
-    func bind() {
-        viewModel
-            .selectedItem
-            .sink(receiveValue: { [weak self] _ in
-                self?.searchBar.resignFirstResponder()
-            })
-            .store(in: &cancellables)
     }
 }
 
 extension MoviesListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchText(searchText)
+    }
 
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.searchCancelAction()
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
 }

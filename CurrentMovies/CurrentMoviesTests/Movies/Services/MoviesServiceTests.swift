@@ -29,34 +29,34 @@ final class MoviesServiceTests: XCTestCase {
                           overview: "Another overview")
     ])
 
-    func testFetchWeatherError() async throws {
+    func testFetchMoviesError() async throws {
         let sessionStub = URLSessionRecordingStub(error: TestError.sample)
         let decoderStub = JSONDecoderRecordingStub(decoded: stubbedResponse)
         let apiKeystorageStub = ApiKeyStorageRecordingStub(key: "Key")
         let sut = MoviesService(urlSession: sessionStub, apiKeyStorage: apiKeystorageStub, decoder: decoderStub)
         do {
-            _ = try await sut.fetchCurrentMovies()
+            _ = try await sut.fetchCurrentMovies(page: 1)
             XCTFail("Unexpected success")
         } catch let error {
             XCTAssertEqual(error as? TestError, TestError.sample)
         }
-        XCTAssertEqual(sessionStub.recordedRequest?.url?.absoluteString, "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=Key")
+        XCTAssertEqual(sessionStub.recordedRequest?.url?.absoluteString, "https://api.themoviedb.org/3/movie/now_playing?language=en-US&api_key=Key&page=1")
         XCTAssertEqual(decoderStub.recordedData, nil)
     }
 
-    func testFetchWeatherSucces() async throws {
+    func testFetchMoviesSuccess() async throws {
         let sessionStub = URLSessionRecordingStub(data: try JSONEncoder().encode(stubbedResponse))
         let decoderStub = JSONDecoderRecordingStub(decoded: stubbedResponse)
         let apiKeystorageStub = ApiKeyStorageRecordingStub(key: "Key")
         let sut = MoviesService(urlSession: sessionStub, apiKeyStorage: apiKeystorageStub, decoder: decoderStub)
         var response: MoviesResponse?
         do {
-            response = try await sut.fetchCurrentMovies()
+            response = try await sut.fetchCurrentMovies(page: 1)
         } catch let error {
             XCTFail("Unexpected error \(error)")
         }
         XCTAssertEqual(response, response)
-        XCTAssertEqual(sessionStub.recordedRequest?.url?.absoluteString, "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=Key")
+        XCTAssertEqual(sessionStub.recordedRequest?.url?.absoluteString, "https://api.themoviedb.org/3/movie/now_playing?language=en-US&api_key=Key&page=1")
         XCTAssertEqual(decoderStub.recordedData, try JSONEncoder().encode(response))
     }
 }

@@ -10,6 +10,8 @@ import Foundation
 protocol MoviesServiceProtocol {
     func fetchCurrentMovies(page: Int32) async throws -> MoviesResponse
     func fetchConfiguration() async throws -> ConfigurationResponse
+
+    func searchMovies(query: String) async throws -> MoviesResponse
 }
 
 enum ServiceError: Error {
@@ -44,6 +46,11 @@ struct MoviesService: MoviesServiceProtocol {
     func fetchConfiguration() async throws -> ConfigurationResponse {
         let response = try await performRequest(request: .configuration)
         return try decoder.decode(ConfigurationResponse.self, from: response.0)
+    }
+
+    func searchMovies(query: String) async throws -> MoviesResponse {
+        let response = try await performRequest(request: .search(query: query))
+        return try decoder.decode(MoviesResponse.self, from: response.0)
     }
 }
 

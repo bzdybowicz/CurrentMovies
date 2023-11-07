@@ -10,6 +10,7 @@ import Foundation
 enum MoviesRequest {
     case nowPlaying(page: Int32)
     case configuration
+    case search(query: String)
 
     var path: String {
         switch self {
@@ -17,6 +18,8 @@ enum MoviesRequest {
             return "movie/now_playing"
         case .configuration:
             return "configuration"
+        case .search:
+            return "search/movie"
         }
     }
 
@@ -31,6 +34,11 @@ enum MoviesRequest {
         case .configuration:
             return [
                 URLQueryItem(name: "api_key", value: apiKey)
+            ]
+        case .search(let query):
+            return [
+                URLQueryItem(name: "api_key", value: apiKey),
+                URLQueryItem(name: "query", value: query)
             ]
         }
     }

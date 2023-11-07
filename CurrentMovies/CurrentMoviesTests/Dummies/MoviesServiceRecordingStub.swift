@@ -11,11 +11,14 @@ import Foundation
 final class MoviesServiceRecordingStub: MoviesServiceProtocol {
 
     private let moviesResponse: MoviesResponse?
+    private let searchResponse: MoviesResponse?
     private let configurationResponse: ConfigurationResponse?
 
     init(moviesResponse: MoviesResponse? = nil,
+         searchResponse: MoviesResponse? = nil,
          configurationResponse: ConfigurationResponse? = nil) {
         self.moviesResponse = moviesResponse
+        self.searchResponse = searchResponse
         self.configurationResponse = configurationResponse
     }
 
@@ -26,8 +29,14 @@ final class MoviesServiceRecordingStub: MoviesServiceProtocol {
         return configurationResponse
     }
 
+    func searchMovies(query: String) async throws -> MoviesResponse {
+        guard let searchResponse else {
+            throw TestError.sample
+        }
+        return searchResponse
+    }
 
-    func fetchCurrentMovies() async throws -> MoviesResponse {
+    func fetchCurrentMovies(page: Int32) async throws -> MoviesResponse {
         guard let moviesResponse else {
             throw TestError.sample
         }
