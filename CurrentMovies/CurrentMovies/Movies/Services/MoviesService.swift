@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MoviesServiceProtocol {
-    func fetchCurrentMovies() async throws -> MoviesResponse
+    func fetchCurrentMovies(page: Int32) async throws -> MoviesResponse
     func fetchConfiguration() async throws -> ConfigurationResponse
 }
 
@@ -36,8 +36,8 @@ struct MoviesService: MoviesServiceProtocol {
         self.decoder = decoder
     }
 
-    func fetchCurrentMovies() async throws -> MoviesResponse {
-        let response = try await performRequest(request: .nowPlaying)
+    func fetchCurrentMovies(page: Int32) async throws -> MoviesResponse {
+        let response = try await performRequest(request: .nowPlaying(page: page))
         return try decoder.decode(MoviesResponse.self, from: response.0)
     }
 
@@ -61,6 +61,7 @@ private extension MoviesService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.setValue(jsonValue, forHTTPHeaderField: acceptKey)
+        urlRequest.timeoutInterval = 10
         return try await urlSession.data(for: urlRequest)
     }
 }

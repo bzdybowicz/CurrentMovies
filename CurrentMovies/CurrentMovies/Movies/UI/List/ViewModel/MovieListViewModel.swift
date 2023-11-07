@@ -19,6 +19,7 @@ protocol MovieListViewModelProtocol: AnyObject {
     // Input.
     func refreshList()
     func selectItem(index: Int)
+    func willDisplay(index: Int)
     func setFavourite(id: Int, newValue: Bool)
 }
 
@@ -36,23 +37,33 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     private let reloadSubject = PassthroughSubject<Void, Never>()
     private let moviesService: MoviesServiceProtocol
     private let emptyPlaceholderString = "-"
+    private var lastRequestedPage: Int32 = 0
 
+    private var fetchingNextPage = false
+    private let nextPageFetchThreshold = 5
     private var cancellables: Set<AnyCancellable> = []
 
     init(moviesService: MoviesServiceProtocol,
          favouritesStorage: FavouritesStorageProtocol) {
         self.moviesService = moviesService
         self.favouritesStorage = favouritesStorage
-        fetchList()
+        fetchPage(bumpPage: true)
         bindFavourites()
     }
 
     func refreshList() {
-        fetchList()
+        fetchPage(bumpPage: false)
     }
 
     func selectItem(index: Int) {
         selectedItemSubject.send(items[index])
+    }
+
+    func willDisplay(index: Int) {
+        guard fetchingNextPage == false else { return }
+        if items.count - index < nextPageFetchThreshold {
+            fetchPage(bumpPage: true)
+        }
     }
 
     func setFavourite(id: Int, newValue: Bool) {
@@ -90,11 +101,16 @@ private extension MovieListViewModel {
         }
     }
 
-    func fetchList() {
+    func fetchPage(bumpPage: Bool) {
+        fetchingNextPage = true
         Task { [weak self] in
             guard let self = self else { return }
             do {
-                let response = try await self.moviesService.fetchCurrentMovies()
+                if bumpPage {
+                    lastRequestedPage += 1
+                }
+                print("Gonna fetch \(lastRequestedPage)")
+                let response = try await self.moviesService.fetchCurrentMovies(page: lastRequestedPage)
                 self.handleResponse(response)
             } catch let error {
                 self.handleError(error: error)
@@ -118,11 +134,16 @@ private extension MovieListViewModel {
                                       overview: value.overview ?? emptyPlaceholderString,
                                       isFavourite: favouritesStorage.isFavourite(id: id))
         }
-        self.items = items
+        print("HANDLE ITEMS \(items.count)")
+        self.items.append(contentsOf: items)
+        fetchingNextPage = false
         reloadSubject.send(())
     }
 
     func handleError(error: Error) {
+        fetchingNextPage = false
+        print("ERROR \(error)")
+        fetchPage(bumpPage: false)
         guard let error = error as? ServiceError else { return }
         print("Service error \(error)")
         // Handle errors. It was not required by reqs.

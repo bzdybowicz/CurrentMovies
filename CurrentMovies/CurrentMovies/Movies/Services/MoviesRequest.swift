@@ -8,7 +8,7 @@
 import Foundation
 
 enum MoviesRequest {
-    case nowPlaying
+    case nowPlaying(page: Int32)
     case configuration
 
     var path: String {
@@ -22,11 +22,11 @@ enum MoviesRequest {
 
     func queryItems(apiKey: String) -> [URLQueryItem] {
         switch self {
-        case .nowPlaying:
+        case .nowPlaying(let page):
             return [
                 URLQueryItem(name: "language", value: "en-US"),
-                URLQueryItem(name: "page", value: "1"),
-                URLQueryItem(name: "api_key", value: apiKey)
+                URLQueryItem(name: "api_key", value: apiKey),
+                URLQueryItem(name: "page", value: String("\(page)"))
             ]
         case .configuration:
             return [

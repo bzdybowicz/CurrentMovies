@@ -58,21 +58,24 @@ private extension MovieCell {
     func setupLabel() {
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: MovieCell.xOffset),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: MovieCell.yOffset),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MovieCell.yOffset),
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: MovieCell.xOffset),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: MovieCell.yOffset),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -MovieCell.yOffset),
         ])
     }
 
     func setupFavouriteButton() {
         contentView.addSubview(favouriteButton)
         favouriteButton.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.activate([
             favouriteButton.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: MovieCell.xOffset),
-            favouriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -MovieCell.xOffset),
-            favouriteButton.topAnchor.constraint(equalTo: topAnchor, constant: MovieCell.yOffset),
-            favouriteButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MovieCell.yOffset),
+            favouriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -MovieCell.xOffset),
+            favouriteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: MovieCell.yOffset),
+            favouriteButton.widthAnchor.constraint(equalToConstant: 22),
+            favouriteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -MovieCell.yOffset),
         ])
     }
 }
